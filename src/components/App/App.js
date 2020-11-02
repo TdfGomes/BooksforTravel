@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import SelectBox from "../SelectBox";
+import Books from "../Books";
 
 const destinations = [
   { label: "Barcelona", value: "barcelona" },
@@ -11,26 +13,22 @@ const destinations = [
 ];
 
 function App() {
-  const [inputValue, setInput] = useState("");
-  const [selectValue, setSelectValue] = useState("");
-  const [isListVisible, setVisibility] = useState(false);
+  const [destination, setDestination] = useState("");
+
   const [isLoading, setLoading] = useState(false);
   const [books, setBooks] = useState([]);
 
-  const options = useRef(destinations);
-
   useEffect(() => {
-    setVisibility(false);
     const getBooks = async () => {
       setLoading(true);
       setBooks([]);
       const response = await fetch(
-        `https://openlibrary.org/subjects/${selectValue.value}.json`
+        `https://openlibrary.org/subjects/${destination}.json`
       );
       const { works } = await response.json();
       if (works.length < 3) {
         const res = await fetch(
-          `http://openlibrary.org/search.json?q=${selectValue.value}`
+          `http://openlibrary.org/search.json?q=${destination}`
         );
         const { docs } = await res.json();
         const queryBooks = docs.map(async (qB) => {
@@ -45,78 +43,22 @@ function App() {
       setBooks(works);
       setLoading(false);
     };
-    if (selectValue) {
+    if (destination) {
       getBooks();
     }
-  }, [selectValue]);
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    setInput(e.target.value);
-  };
-
-  const clearSelect = (e) => {
-    e.preventDefault();
-    setSelectValue("");
-    setInput("");
-  };
-
-  const filteredOpts = options.current.filter(({ value }) =>
-    new RegExp(inputValue, "ig").test(value)
-  );
+  }, [destination]);
 
   return (
     <>
-      <div>
-        <div>
-          {selectValue && <div>{selectValue.label}</div>}
-          <input
-            type="text"
-            aria-label="input-select"
-            placeholder="Select a country"
-            onChange={handleChange}
-            value={inputValue}
-            onFocus={() => setVisibility(true)}
-            disabled={isLoading}
-            onBlur={() => setVisibility(false)}
-          />
-          <button onClick={clearSelect} disabled={isLoading}>
-            X
-          </button>
-        </div>
-        {isListVisible && (
-          <ul role="listbox">
-            {filteredOpts.map(({ label, value }, idx) => (
-              <li
-                onMouseDown={() => setSelectValue({ label, value })}
-                key={`${idx}-${value}`}
-                isfocused={(selectValue.value === value).toString()}>
-                {label}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <SelectBox
+        disabled={isLoading}
+        options={destinations}
+        placeholder="Select a country"
+        onSelect={(value) => setDestination(value)}
+      />
       <div>
         {isLoading && <div>Loading....</div>}
-        {books && (
-          <ul>
-            {books.map((book, idx) => (
-              <li key={idx}>
-                <a
-                  href={encodeURI(
-                    `https://openlibrary.org${book.key}/${book.title}`
-                  )}>
-                  <p>{book.title}</p>
-                  <img
-                    alt={book.title}
-                    src={`https://covers.openlibrary.org/b/id/${book?.cover_id}-S.jpg`}
-                  />
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
+        {books && <Books books={books} />}
       </div>
     </>
   );
