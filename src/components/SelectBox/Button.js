@@ -11,6 +11,16 @@ const Button = styled.button`
   outline: none;
   padding-top: 5px;
   position: relative;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 250ms ease-in;
+  &:hover {
+    opacity: 1;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 `;
 
 Button.displayName = "Button";

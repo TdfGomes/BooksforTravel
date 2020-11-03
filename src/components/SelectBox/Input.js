@@ -9,6 +9,10 @@ const Input = styled.input`
   line-height: 1;
   color: #414d5d;
   outline: none;
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 `;
 
 Input.displayName = "Input";
