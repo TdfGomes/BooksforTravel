@@ -31,6 +31,7 @@ function SelectBox({
   const handleBlur = (e) => {
     e.preventDefault();
     setVisibility(false);
+    setInput("");
   };
 
   const clearSelect = (e) => {
@@ -60,7 +61,7 @@ function SelectBox({
   return (
     <SelectContainer>
       <Select>
-        {selectValue && <Label>{selectValue.label}</Label>}
+        {selectValue && !inputValue && <Label>{selectValue.label}</Label>}
         <Input
           {...inputProps}
           type="text"
