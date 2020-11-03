@@ -30,6 +30,7 @@ function useBooks(destination) {
 
   useEffect(() => {
     if (destination) {
+      setBooks([]);
       getWorksOrBooks();
     }
   }, [destination, getWorksOrBooks]);
