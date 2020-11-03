@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 import SelectBox from "../SelectBox";
@@ -25,9 +25,23 @@ const Wrapper = styled.div`
   padding: 15px;
 `;
 
+const Slider = styled.div`
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: inline-block;
+  margin-top: 35px;
+  width: 100%;
+`;
+
 function App() {
   const [destination, setDestination] = useState("");
   const { isLoading, error, books } = useBooks(destination);
+  const [sliderWidth, setWidth] = useState(0);
+  const sliderRef = useRef();
+
+  useEffect(() => {
+    setWidth(sliderRef.current.offsetLeft + sliderRef.current.offsetWidth);
+  }, [destination]);
 
   return (
     <Wrapper>
@@ -37,11 +51,11 @@ function App() {
         placeholder="Select a country"
         onSelect={(value) => setDestination(value)}
       />
-      <div>
+      <Slider ref={sliderRef}>
         {isLoading && <div>Loading....</div>}
         {error && <div>{error}</div>}
-        {books && <Books books={books} />}
-      </div>
+        {books && <Books books={books} width={sliderWidth} />}
+      </Slider>
     </Wrapper>
   );
 }

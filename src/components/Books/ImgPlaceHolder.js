@@ -3,6 +3,7 @@ import styled from "styled-components";
 const ImgPlaceHolder = styled.div`
   width: 43px;
   height: 58px;
+  margin: 0 auto;
   border-radius: 4px;
   border: 1px solid #414d5d;
   background-color: #d7dfea;

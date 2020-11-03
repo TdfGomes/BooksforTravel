@@ -3,11 +3,19 @@ import PropTypes from "prop-types";
 
 import Book from "./Book";
 
-const StyledBooks = styled.ul``;
+const StyledBooks = styled.ul`
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  width: calc(400px - 30px);
+`;
 
-function Books({ books }) {
+function Books({ books, width }) {
   return (
-    <StyledBooks>
+    <StyledBooks style={{ width }}>
       {books.map(({ cover_id, key, title }, idx) => (
         <Book key={idx} coverID={cover_id} bKey={key} title={title} />
       ))}
@@ -25,6 +33,7 @@ Books.propTypes = {
       key: PropTypes.string.isRequired,
     })
   ).isRequired,
+  width: PropTypes.number.isRequired,
 };
 
 export default Books;
