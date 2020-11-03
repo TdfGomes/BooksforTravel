@@ -1,4 +1,6 @@
 import { useState } from "react";
+import styled from "styled-components";
+
 import SelectBox from "../SelectBox";
 import Books from "../Books";
 import useBooks from "../../hooks/useBooks";
@@ -13,12 +15,22 @@ const destinations = [
   { label: "Rio de Janeiro", value: "rio_de_janeiro" },
 ];
 
+const Wrapper = styled.div`
+  width: 325px;
+  height: 500px;
+  border: 2px solid #6f7fce;
+  margin: 50px auto;
+  border-radius: 5px;
+  background-color: #ececec;
+  padding: 15px;
+`;
+
 function App() {
   const [destination, setDestination] = useState("");
   const { isLoading, error, books } = useBooks(destination);
 
   return (
-    <>
+    <Wrapper>
       <SelectBox
         disabled={isLoading}
         options={destinations}
@@ -30,7 +42,7 @@ function App() {
         {error && <div>{error}</div>}
         {books && <Books books={books} />}
       </div>
-    </>
+    </Wrapper>
   );
 }
 

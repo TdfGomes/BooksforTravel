@@ -2,11 +2,15 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 import SelectContainer from "./SelectContainer";
+import Indicators from "./Indicators";
 import Select from "./Select";
+import Label from "./Label";
 import Input from "./Input";
 import Button from "./Button";
 import List from "./List";
 import Option from "./Option";
+
+import { Cross, Chevron } from "../Icons";
 
 function SelectBox({
   disabled,
@@ -24,11 +28,6 @@ function SelectBox({
     setInput(e.target.value);
   };
 
-  const handleFocus = (e) => {
-    e.preventDefault();
-    setVisibility(true);
-  };
-
   const handleBlur = (e) => {
     e.preventDefault();
     setVisibility(false);
@@ -40,9 +39,15 @@ function SelectBox({
     setInput("");
   };
 
+  const handleFocus = (e) => {
+    e.preventDefault();
+    setVisibility(true);
+  };
+
   const handleSelect = ({ label, value }) => {
     setSelectValue({ label, value });
     setVisibility(false);
+    setInput("");
     if (onSelect) {
       onSelect(value);
     }
@@ -55,21 +60,24 @@ function SelectBox({
   return (
     <SelectContainer>
       <Select>
-        {selectValue && <div>{selectValue.label}</div>}
+        {selectValue && <Label>{selectValue.label}</Label>}
         <Input
           {...inputProps}
           type="text"
           aria-label="input-select"
-          placeholder={placeholder}
+          placeholder={!selectValue.label ? placeholder : ""}
           value={inputValue}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
           disabled={disabled}
         />
-        <Button onClick={clearSelect} disabled={disabled}>
-          X
-        </Button>
+        <Indicators>
+          <Button onClick={clearSelect} disabled={disabled}>
+            <Cross color="#414d5d" />
+          </Button>
+          <Chevron color="#414d5d" />
+        </Indicators>
       </Select>
       {isListVisible && (
         <List role="listbox">
