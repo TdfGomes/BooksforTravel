@@ -10,7 +10,6 @@ const StyledBooks = styled.ul`
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
-  width: calc(400px - 30px);
 `;
 
 function Books({ books, width }) {

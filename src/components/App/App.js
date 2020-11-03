@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 
 import SelectBox from "../SelectBox";
 import Books from "../Books";
 import useBooks from "../../hooks/useBooks";
+import useWidth from "../../hooks/useWidth";
 
 const destinations = [
   { label: "Barcelona", value: "barcelona" },
@@ -36,19 +37,15 @@ const Slider = styled.div`
 function App() {
   const [destination, setDestination] = useState("");
   const { isLoading, error, books } = useBooks(destination);
-  const [sliderWidth, setWidth] = useState(0);
   const sliderRef = useRef();
-
-  useEffect(() => {
-    setWidth(sliderRef.current.offsetLeft + sliderRef.current.offsetWidth);
-  }, [destination]);
+  const sliderWidth = useWidth(sliderRef.current, destination);
 
   return (
     <Wrapper>
       <SelectBox
         disabled={isLoading}
         options={destinations}
-        placeholder="Select a country"
+        placeholder="Select a destination"
         onSelect={(value) => setDestination(value)}
       />
       <Slider ref={sliderRef}>
