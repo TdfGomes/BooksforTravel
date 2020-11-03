@@ -40,7 +40,7 @@ function SelectBox({
     setInput("");
   };
 
-  const handleFocus = (e) => {
+  const showMenu = (e) => {
     e.preventDefault();
     setVisibility(true);
   };
@@ -69,7 +69,7 @@ function SelectBox({
           placeholder={!selectValue.label ? placeholder : ""}
           value={inputValue}
           onChange={handleChange}
-          onFocus={handleFocus}
+          onFocus={showMenu}
           onBlur={handleBlur}
           disabled={disabled}
         />
@@ -77,7 +77,9 @@ function SelectBox({
           <Button onClick={clearSelect} disabled={disabled}>
             <Cross color="#414d5d" />
           </Button>
-          <Chevron color="#414d5d" />
+          <Button onClick={showMenu} disabled={disabled}>
+            <Chevron color="#414d5d" />
+          </Button>
         </Indicators>
       </Select>
       {isListVisible && (
@@ -86,7 +88,7 @@ function SelectBox({
             <Option
               onMouseDown={() => handleSelect({ label, value })}
               key={`${idx}-${value}`}
-              isfocused={(selectValue.value === value).toString()}>
+              isFocused={selectValue.value === value}>
               {label}
             </Option>
           ))}

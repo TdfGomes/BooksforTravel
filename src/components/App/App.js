@@ -16,7 +16,7 @@ const destinations = [
 ];
 
 const Wrapper = styled.div`
-  width: 325px;
+  width: 400px;
   height: 500px;
   border: 2px solid #6f7fce;
   margin: 50px auto;

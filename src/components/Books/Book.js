@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import ImgPlaceHolder from "./ImgPlaceHolder";
 
 const StyledBook = styled.li``;
 
@@ -8,10 +9,14 @@ function Book({ title, bKey, coverID }) {
     <StyledBook>
       <a href={encodeURI(`https://openlibrary.org${bKey}/${title}`)}>
         <p>{title}</p>
-        <img
-          alt={title}
-          src={`https://covers.openlibrary.org/b/id/${coverID}-S.jpg`}
-        />
+        {coverID ? (
+          <img
+            alt={title}
+            src={`https://covers.openlibrary.org/b/id/${coverID}-S.jpg`}
+          />
+        ) : (
+          <ImgPlaceHolder />
+        )}
       </a>
     </StyledBook>
   );
