@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SelectBox from "../SelectBox";
 import Books from "../Books";
+import useBooks from "../../hooks/useBooks";
 
 const destinations = [
   { label: "Barcelona", value: "barcelona" },
@@ -15,38 +16,7 @@ const destinations = [
 function App() {
   const [destination, setDestination] = useState("");
 
-  const [isLoading, setLoading] = useState(false);
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    const getBooks = async () => {
-      setLoading(true);
-      setBooks([]);
-      const response = await fetch(
-        `https://openlibrary.org/subjects/${destination}.json`
-      );
-      const { works } = await response.json();
-      if (works.length < 3) {
-        const res = await fetch(
-          `http://openlibrary.org/search.json?q=${destination}`
-        );
-        const { docs } = await res.json();
-        const queryBooks = docs.map(async (qB) => {
-          const bookPath = qB.seed.find((book) => /books/gi.test(book));
-          const res = await fetch(`http://openlibrary.org${bookPath}.json`);
-          return res.json();
-        });
-        const allBooks = await Promise.all(queryBooks);
-        setBooks(allBooks);
-        return setLoading(false);
-      }
-      setBooks(works);
-      setLoading(false);
-    };
-    if (destination) {
-      getBooks();
-    }
-  }, [destination]);
+  const { isLoading, books } = useBooks(destination);
 
   return (
     <>
