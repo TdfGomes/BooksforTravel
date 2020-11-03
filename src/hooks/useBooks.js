@@ -1,40 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { getWorks, getBooks } from "../api/get";
+import useGetLatest from "./useGetLatest";
 
 function useBooks(destination) {
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [books, setBooks] = useState([]);
+  const getWorksCallBack = useGetLatest(getWorks);
+  const getBooksCallBack = useGetLatest(getBooks);
 
-  useEffect(() => {
-    const getBooks = async () => {
-      setLoading(true);
-      setBooks([]);
-      const response = await fetch(
-        `https://openlibrary.org/subjects/${destination}.json`
-      );
-      const { works } = await response.json();
+  const fetchWorks = getWorksCallBack();
+  const fetchBooks = getBooksCallBack();
+
+  const getWorksOrBooks = useCallback(async () => {
+    setLoading(true);
+    try {
+      const works = await fetchWorks(destination);
       if (works.length < 3) {
-        const res = await fetch(
-          `http://openlibrary.org/search.json?q=${destination}`
-        );
-        const { docs } = await res.json();
-        const queryBooks = docs.map(async (qB) => {
-          const bookPath = qB.seed.find((book) => /books/gi.test(book));
-          const res = await fetch(`http://openlibrary.org${bookPath}.json`);
-          return res.json();
-        });
-        const allBooks = await Promise.all(queryBooks);
-        setBooks(allBooks);
+        const books = await fetchBooks(destination);
+        setBooks(books);
         return setLoading(false);
       }
       setBooks(works);
-      setLoading(false);
-    };
-    if (destination) {
-      getBooks();
+      return setLoading(false);
+    } catch (error) {
+      setError(error);
     }
-  }, [destination]);
+  }, [destination, fetchWorks, fetchBooks]);
 
-  return { isLoading, books };
+  useEffect(() => {
+    if (destination) {
+      getWorksOrBooks();
+    }
+  }, [destination, getWorksOrBooks]);
+
+  return { isLoading, error, books };
 }
 
 export default useBooks;

@@ -15,8 +15,7 @@ const destinations = [
 
 function App() {
   const [destination, setDestination] = useState("");
-
-  const { isLoading, books } = useBooks(destination);
+  const { isLoading, error, books } = useBooks(destination);
 
   return (
     <>
@@ -28,6 +27,7 @@ function App() {
       />
       <div>
         {isLoading && <div>Loading....</div>}
+        {error && <div>{error}</div>}
         {books && <Books books={books} />}
       </div>
     </>
