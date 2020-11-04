@@ -12,13 +12,13 @@ const Button = styled.button`
   padding-top: 5px;
   position: relative;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.7;
   transition: opacity 250ms ease-in;
   &:hover {
     opacity: 1;
   }
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.3;
     cursor: not-allowed;
   }
 `;

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import Book from "./Book";
+import { forwardRef } from "react";
 
 const StyledBooks = styled.ul`
   padding: 0;
@@ -12,15 +13,13 @@ const StyledBooks = styled.ul`
   align-items: flex-start;
 `;
 
-function Books({ books, width }) {
-  return (
-    <StyledBooks style={{ width }}>
-      {books.map(({ cover_id, key, title }, idx) => (
-        <Book key={idx} coverID={cover_id} bKey={key} title={title} />
-      ))}
-    </StyledBooks>
-  );
-}
+const Books = forwardRef(({ books, width }, ref) => (
+  <StyledBooks style={{ width }} ref={ref}>
+    {books.map(({ cover_id, key, title }, idx) => (
+      <Book key={idx} coverID={cover_id} bKey={key} title={title} />
+    ))}
+  </StyledBooks>
+));
 
 Books.dispalyName = "Books";
 

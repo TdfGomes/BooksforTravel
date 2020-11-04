@@ -10,7 +10,7 @@ const Input = styled.input`
   color: #414d5d;
   outline: none;
   &:disabled {
-    opacity: 0.4;
+    opacity: 0.3;
     cursor: not-allowed;
   }
 `;
