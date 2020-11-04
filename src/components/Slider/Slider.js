@@ -1,8 +1,10 @@
 import { Children, cloneElement, forwardRef, useEffect, useRef } from "react";
 import styled from "styled-components";
 import gsap from "gsap";
+
 import { Button } from "../common";
 import { Chevron } from "../Icons";
+
 import useWidth from "../../hooks/useWidth";
 
 const SliderContainer = styled.div`
@@ -46,8 +48,8 @@ const Slider = forwardRef(({ children, depedency }, ref) => {
   }, [depedency]);
 
   const goLeft = (e) => {
-    console.log(slides.current);
     e.preventDefault();
+
     if (slides.current + 1 < manySlides) {
       slides.current++;
       gsap.to(listRef.current, {
@@ -60,7 +62,6 @@ const Slider = forwardRef(({ children, depedency }, ref) => {
 
   const goRight = (e) => {
     e.preventDefault();
-    console.log(slides.current);
 
     if (slides.current > 0) {
       slides.current--;
