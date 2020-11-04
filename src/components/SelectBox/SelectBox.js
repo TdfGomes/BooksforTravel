@@ -5,11 +5,10 @@ import SelectContainer from "./SelectContainer";
 import Indicators from "./Indicators";
 import Select from "./Select";
 import Label from "./Label";
-import Input from "./Input";
-import Button from "./Button";
 import List from "./List";
 import Option from "./Option";
 
+import { Button, Input } from "../common";
 import { Cross, Chevron } from "../Icons";
 
 function SelectBox({

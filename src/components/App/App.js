@@ -4,7 +4,7 @@ import gsap from "gsap";
 
 import SelectBox from "../SelectBox";
 import Books from "../Books";
-import Button from "../SelectBox/Button";
+import { Button } from "../common";
 
 import useBooks from "../../hooks/useBooks";
 import useWidth from "../../hooks/useWidth";
