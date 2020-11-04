@@ -8,9 +8,7 @@ const StyledBooks = styled.ul`
   padding: 0;
   margin: 0;
   list-style: none;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
+  display: inline-block;
 `;
 
 const Books = forwardRef(({ books, width }, ref) => (

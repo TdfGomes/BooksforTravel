@@ -4,8 +4,14 @@ import ImgPlaceHolder from "./ImgPlaceHolder";
 
 const StyledBook = styled.li`
   text-align: center;
-  width: 80px;
+  width: 135px;
   margin: 5px 15px;
+  float: left;
+  &:after,
+  &:before {
+    content: "";
+    clear: both;
+  }
 `;
 
 const BookLink = styled.a`
@@ -13,11 +19,12 @@ const BookLink = styled.a`
   color: #414d5d;
   font-size: 14px;
   text-align: center;
+  display: inset-block;
+  width: 100%;
+  > img {
+    max-height: 190px;
+  }
 `;
-
-// const Title = styled.p`
-
-// `
 
 function Book({ title, bKey, coverID }) {
   return (
@@ -26,7 +33,7 @@ function Book({ title, bKey, coverID }) {
         {coverID ? (
           <img
             alt={title}
-            src={`https://covers.openlibrary.org/b/id/${coverID}-S.jpg`}
+            src={`https://covers.openlibrary.org/b/id/${coverID}-M.jpg`}
           />
         ) : (
           <ImgPlaceHolder />

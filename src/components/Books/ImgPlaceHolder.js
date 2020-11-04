@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const ImgPlaceHolder = styled.div`
-  width: 43px;
-  height: 58px;
+  width: 99%;
+  height: 190px;
   margin: 0 auto;
   border-radius: 4px;
   border: 1px solid #414d5d;
@@ -25,7 +25,7 @@ const ImgPlaceHolder = styled.div`
   &:before {
     content: "Image Not Found!";
     color: #414d5d;
-    font-size: 10px;
+    font-size: 14px;
     position: absolute;
     top: 50%;
     left: 50%;
