@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import SelectContainer from "./SelectContainer";
@@ -22,6 +22,7 @@ function SelectBox({
   const [inputValue, setInput] = useState("");
   const [selectValue, setSelectValue] = useState("");
   const [isListVisible, setVisibility] = useState(false);
+  const inputRef = useRef();
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -64,6 +65,7 @@ function SelectBox({
         {selectValue && !inputValue && <Label>{selectValue.label}</Label>}
         <Input
           {...inputProps}
+          ref={inputRef}
           type="text"
           aria-label="input-select"
           placeholder={!selectValue.label ? placeholder : ""}
@@ -77,7 +79,7 @@ function SelectBox({
           <Button onClick={clearSelect} disabled={disabled}>
             <Cross color="#414d5d" />
           </Button>
-          <Button onClick={showMenu} disabled={disabled}>
+          <Button onClick={() => inputRef.current.focus()} disabled={disabled}>
             <Chevron color="#414d5d" />
           </Button>
         </Indicators>
