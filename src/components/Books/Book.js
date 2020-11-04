@@ -23,6 +23,7 @@ const BookLink = styled.a`
   width: 100%;
   > img {
     max-height: 190px;
+    max-width: 100%;
   }
 `;
 

@@ -21,6 +21,10 @@ const Books = forwardRef(({ books, width }, ref) => (
 
 Books.dispalyName = "Books";
 
+Books.defaultProps = {
+  width: "100%",
+};
+
 Books.propTypes = {
   books: PropTypes.arrayOf(
     PropTypes.shape({
@@ -29,7 +33,7 @@ Books.propTypes = {
       key: PropTypes.string.isRequired,
     })
   ).isRequired,
-  width: PropTypes.number.isRequired,
+  width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
 export default Books;
