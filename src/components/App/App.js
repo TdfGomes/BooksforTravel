@@ -1,8 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import gsap from "gsap";
 
 import SelectBox from "../SelectBox";
 import Books from "../Books";
+import Button from "../SelectBox/Button";
+
 import useBooks from "../../hooks/useBooks";
 import useWidth from "../../hooks/useWidth";
 import { Chevron } from "../Icons";
@@ -34,8 +37,7 @@ const Slider = styled.div`
 `;
 
 const SliderContainer = styled.div`
-  overflow-x: scroll;
-  overflow-y: auto;
+  overflow: hidden;
   display: inline-block;
   width: 100%;
   position: relative;
@@ -58,7 +60,43 @@ function App() {
   const [destination, setDestination] = useState("");
   const { isLoading, error, books } = useBooks(destination);
   const listRef = useRef();
-  const totalWidth = useWidth(listRef.current, destination);
+  const containerRef = useRef();
+  const slides = useRef(0);
+  const { sliderWidth, activeSlidesWidth } = useWidth(
+    listRef.current,
+    destination
+  );
+
+  const manySlides = Math.floor(sliderWidth / activeSlidesWidth);
+
+  useEffect(() => {
+    slides.current = 0;
+  }, [destination]);
+
+  const goLeft = (e) => {
+    e.preventDefault();
+    if (slides.current + 1 < manySlides) {
+      slides.current++;
+      gsap.to(listRef.current, {
+        x: `-=${activeSlidesWidth}`,
+        duration: 0.55,
+        ease: "power2.out",
+      });
+    }
+  };
+
+  const goRight = (e) => {
+    e.preventDefault();
+
+    if (slides.current > 0) {
+      slides.current--;
+      gsap.to(listRef.current, {
+        x: `+=${activeSlidesWidth}`,
+        duration: 0.55,
+        ease: "power2.out",
+      });
+    }
+  };
 
   return (
     <Wrapper>
@@ -74,23 +112,15 @@ function App() {
         {books.length ? (
           <>
             <Arrows>
-              <Chevron
-                color="#414d5d"
-                direction="left"
-                width={40}
-                height={40}
-                hover
-              />
-              <Chevron
-                color="#414d5d"
-                direction="right"
-                width={40}
-                height={40}
-                hover
-              />
+              <Button onClick={goLeft}>
+                <Chevron direction="left" width={40} height={40} hover />
+              </Button>
+              <Button onClick={goRight}>
+                <Chevron direction="right" width={40} height={40} hover />
+              </Button>
             </Arrows>
-            <SliderContainer>
-              <Books books={books} width={totalWidth} ref={listRef} />
+            <SliderContainer ref={containerRef}>
+              <Books books={books} width={sliderWidth} ref={listRef} />
             </SliderContainer>
           </>
         ) : null}

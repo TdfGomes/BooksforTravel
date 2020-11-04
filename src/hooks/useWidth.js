@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 /**
  *
@@ -8,20 +8,23 @@ import { useState, useEffect } from "react";
 
 function useWidth(ref, destination) {
   const [sliderWidth, setWidth] = useState(0);
+  const activeSlidesWidth = useRef(0);
 
   const items = Array.from(ref?.children || []);
 
   useEffect(() => {
+    setWidth(0);
     if (items.length) {
       const totalWith = items.reduce(
         (acc, curr) => acc + curr.offsetWidth + 30, // sum the item's width plus 30px from the element's horizontal padding
         0
       );
       setWidth(totalWith);
+      activeSlidesWidth.current = (ref.children[0].clientWidth + 30) * 2;
     }
-  }, [destination, items]);
+  }, [destination, items, ref]);
 
-  return sliderWidth;
+  return { sliderWidth, activeSlidesWidth: activeSlidesWidth.current };
 }
 
 export default useWidth;
