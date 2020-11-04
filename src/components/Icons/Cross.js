@@ -12,7 +12,7 @@ function Cross({ className }) {
 }
 
 Cross.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default Cross;

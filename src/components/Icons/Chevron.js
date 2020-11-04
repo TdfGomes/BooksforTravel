@@ -13,7 +13,7 @@ function ChevronIcon({ className }) {
 }
 
 ChevronIcon.propTypes = {
-  className: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 const direction = (direction) => {
@@ -52,8 +52,8 @@ Chevron.defaultProps = {
 
 Chevron.propTypes = {
   direction: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
   hover: PropTypes.bool.isRequired,
 };
 
