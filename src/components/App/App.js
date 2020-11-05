@@ -4,6 +4,7 @@ import styled from "styled-components";
 import SelectBox from "../SelectBox";
 import Books from "../Books";
 import Slider from "../Slider";
+import { LoadingSkeleton } from "../common";
 
 import useBooks from "../../hooks/useBooks";
 
@@ -39,8 +40,8 @@ function App() {
         placeholder="Select a destination"
         onSelect={(value) => setDestination(value)}
       />
-      {isLoading && <div>Loading....</div>}
       {error && <div>{error}</div>}
+      {isLoading && <LoadingSkeleton />}
       <Slider depedency={destination}>
         {books.length ? <Books books={books} /> : null}
       </Slider>
