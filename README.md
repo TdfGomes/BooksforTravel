@@ -8,6 +8,8 @@ Find a book related with your travel destination to read during traveling and kn
 
 ## How to run the app
 
+Run `yarn` in the root folder to install all dependencies then you can choose one of the following commands:
+
 ### `yarn start`
 
 Runs the app in the development mode.\
