@@ -1,6 +1,6 @@
 # Books for travel
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). And I used [styled-components](https://styled-components.com/) for styling.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). And I used [styled-components](https://styled-components.com/) for styling. The books results are from [Open Library Api](https://openlibrary.org/)
 
 ## User Story
 
