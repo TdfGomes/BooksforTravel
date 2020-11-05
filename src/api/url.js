@@ -2,10 +2,10 @@ export const API_URL = "https://openlibrary.org";
 
 /**
  *
- * @param {number} coverID
+ * @param {number} coverID should also include the size like img-S, img-M or img-L
  */
-export const coversUrl = (coverID) =>
-  encodeURI(`https://covers.openlibrary.org/b/id/${coverID}-S.jpg`);
+export const coverUrl = (coverID) =>
+  encodeURI(`https://covers.openlibrary.org/b/id/${coverID}.jpg`);
 
 /**
  *
