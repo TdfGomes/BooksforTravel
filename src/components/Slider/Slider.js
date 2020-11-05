@@ -1,4 +1,5 @@
-import { Children, cloneElement, forwardRef, useEffect, useRef } from "react";
+import { Children, cloneElement, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import gsap from "gsap";
 
@@ -33,7 +34,7 @@ const Arrows = styled.div`
   transform: translateY(-50%);
 `;
 
-const Slider = forwardRef(({ children, depedency }, ref) => {
+function Slider({ children, depedency }) {
   const listRef = useRef();
   const slides = useRef(0);
   const { sliderWidth, activeSlidesWidth } = useWidth(
@@ -85,7 +86,7 @@ const Slider = forwardRef(({ children, depedency }, ref) => {
           </Button>
         </Arrows>
       )}
-      <SliderOverFlow ref={ref}>
+      <SliderOverFlow>
         {Children.map(children, (child) =>
           cloneElement(child, {
             ...child.props,
@@ -96,6 +97,12 @@ const Slider = forwardRef(({ children, depedency }, ref) => {
       </SliderOverFlow>
     </SliderContainer>
   );
-});
+}
+
+Slider.propTypes = {
+  children: PropTypes.element,
+  depedency: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    .isRequired,
+};
 
 export default Slider;
