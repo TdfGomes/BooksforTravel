@@ -1,7 +1,6 @@
 import { Children, cloneElement, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import gsap from "gsap";
 
 import { Button } from "../common";
 import { Chevron } from "../Icons";
@@ -34,7 +33,7 @@ const Arrows = styled.div`
   transform: translateY(-50%);
 `;
 
-function Slider({ children, depedency }) {
+function Slider({ children, depedency, tweenLeft, tweenRight }) {
   const listRef = useRef();
   const slides = useRef(0);
   const { sliderWidth, activeSlidesWidth } = useWidth(
@@ -53,11 +52,7 @@ function Slider({ children, depedency }) {
 
     if (slides.current + 1 < manySlides) {
       slides.current++;
-      gsap.to(listRef.current, {
-        x: `-=${activeSlidesWidth}`,
-        duration: 0.55,
-        ease: "power2.out",
-      });
+      tweenLeft(listRef.current, activeSlidesWidth);
     }
   };
 
@@ -66,35 +61,33 @@ function Slider({ children, depedency }) {
 
     if (slides.current > 0) {
       slides.current--;
-      gsap.to(listRef.current, {
-        x: `+=${activeSlidesWidth}`,
-        duration: 0.55,
-        ease: "power2.out",
-      });
+      tweenRight(listRef.current, activeSlidesWidth);
     }
   };
 
   return (
     <SliderContainer>
       {children && (
-        <Arrows>
-          <Button onClick={goLeft}>
-            <Chevron direction="left" width={40} height={40} hover />
-          </Button>
-          <Button onClick={goRight}>
-            <Chevron direction="right" width={40} height={40} hover />
-          </Button>
-        </Arrows>
+        <>
+          <Arrows aria-label="arrows">
+            <Button onClick={goLeft} aria-label="slide left">
+              <Chevron direction="left" width={40} height={40} hover />
+            </Button>
+            <Button onClick={goRight} aria-label="slide right">
+              <Chevron direction="right" width={40} height={40} hover />
+            </Button>
+          </Arrows>
+          <SliderOverFlow aria-label="slider inner container">
+            {Children.map(children, (child) =>
+              cloneElement(child, {
+                ...child.props,
+                width: sliderWidth,
+                ref: listRef,
+              })
+            )}
+          </SliderOverFlow>
+        </>
       )}
-      <SliderOverFlow>
-        {Children.map(children, (child) =>
-          cloneElement(child, {
-            ...child.props,
-            width: sliderWidth,
-            ref: listRef,
-          })
-        )}
-      </SliderOverFlow>
     </SliderContainer>
   );
 }
@@ -103,6 +96,8 @@ Slider.propTypes = {
   children: PropTypes.element,
   depedency: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
+  tweenLeft: PropTypes.func.isRequired,
+  tweenRight: PropTypes.func.isRequired,
 };
 
 export default Slider;

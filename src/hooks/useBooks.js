@@ -25,6 +25,7 @@ function useBooks(destination) {
       return setLoading(false);
     } catch (error) {
       setError(error);
+      setLoading(false);
     }
   }, [destination, fetchWorks, fetchBooks]);
 

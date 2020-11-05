@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import gsap from "gsap";
 
 import SelectBox from "../SelectBox";
 import Books from "../Books";
@@ -28,12 +29,33 @@ const Wrapper = styled.div`
   padding: 15px 25px;
 `;
 
+const Title = styled.h3`
+  color: #414d5d;
+`;
+
+const goLeft = (elem, left) => {
+  gsap.to(elem, {
+    x: `-=${left}`,
+    duration: 0.55,
+    ease: "power2.out",
+  });
+};
+
+const goRight = (elem, left) => {
+  gsap.to(elem, {
+    x: `+=${left}`,
+    duration: 0.55,
+    ease: "power2.out",
+  });
+};
+
 function App() {
   const [destination, setDestination] = useState("");
   const { isLoading, error, books } = useBooks(destination);
 
   return (
     <Wrapper>
+      <Title>Choose a book for your next trip</Title>
       <SelectBox
         disabled={isLoading}
         options={destinations}
@@ -42,9 +64,11 @@ function App() {
       />
       {error && <div>{error}</div>}
       {isLoading && <LoadingSkeleton />}
-      <Slider depedency={destination}>
-        {books.length ? <Books books={books} /> : null}
-      </Slider>
+      {books.length ? (
+        <Slider depedency={destination} tweenLeft={goLeft} tweenRight={goRight}>
+          <Books books={books} />
+        </Slider>
+      ) : null}
     </Wrapper>
   );
 }

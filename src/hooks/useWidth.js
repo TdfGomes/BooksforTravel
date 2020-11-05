@@ -16,7 +16,7 @@ function useWidth(ref, destination) {
     setWidth(0);
     if (items.length) {
       const totalWith = items.reduce(
-        (acc, curr) => acc + curr.offsetWidth + 30, // sum the item's width plus 30px from the element's horizontal padding
+        (acc, curr) => acc + curr.clientWidth + 30, // sum the item's width plus 30px from the element's horizontal padding
         0
       );
       setWidth(totalWith);

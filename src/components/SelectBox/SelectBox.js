@@ -75,10 +75,13 @@ function SelectBox({
           disabled={disabled}
         />
         <Indicators>
-          <Button onClick={clearSelect} disabled={disabled}>
+          <Button onClick={clearSelect} disabled={disabled} role="clearlistbox">
             <Cross color="#414d5d" />
           </Button>
-          <Button onClick={() => inputRef.current.focus()} disabled={disabled}>
+          <Button
+            onClick={() => inputRef.current.focus()}
+            disabled={disabled}
+            role="showlistbox">
             <Chevron color="#414d5d" />
           </Button>
         </Indicators>
