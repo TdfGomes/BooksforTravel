@@ -20,7 +20,7 @@ function useWidth(ref, destination) {
         0
       );
       setWidth(totalWith);
-      activeSlidesWidth.current = (ref.children[0].clientWidth + 30) * 2;
+      activeSlidesWidth.current = (ref.children[0].clientWidth + 30) * 2; // times 2 because we just display 2 slide items at a time
     }
   }, [destination, items, ref]);
 
