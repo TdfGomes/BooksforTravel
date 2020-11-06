@@ -33,17 +33,9 @@ const Title = styled.h3`
   color: #414d5d;
 `;
 
-const goLeft = (elem, left) => {
+const slideTween = (elem, left) => {
   gsap.to(elem, {
-    x: `-=${left}`,
-    duration: 0.55,
-    ease: "power2.out",
-  });
-};
-
-const goRight = (elem, left) => {
-  gsap.to(elem, {
-    x: `+=${left}`,
+    x: left,
     duration: 0.55,
     ease: "power2.out",
   });
@@ -65,7 +57,7 @@ function App() {
       {error && <div>{error}</div>}
       {isLoading && <LoadingSkeleton />}
       {books.length ? (
-        <Slider depedency={destination} tweenLeft={goLeft} tweenRight={goRight}>
+        <Slider depedency={destination} slideTween={slideTween}>
           <Books books={books} />
         </Slider>
       ) : null}

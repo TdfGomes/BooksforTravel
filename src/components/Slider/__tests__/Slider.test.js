@@ -10,39 +10,40 @@ jest.mock("../../../hooks/useWidth.js", () => ({
   }),
 }));
 
-const goLeft = jest.fn((el, l) => console.log({ el, l }));
-
-const goRight = jest.fn((el, l) => console.log({ el, l }));
+const slideTween = jest.fn();
 
 test("<Slider/>", () => {
   const { rerender, container } = render(
-    <Slider depedency={0} tweenLeft={goLeft} tweenRight={goRight} />
+    <Slider depedency={0} slideTween={slideTween} />
   );
+
   expect(screen.queryByLabelText(/arrows/gi)).not.toBeInTheDocument();
+
   rerender(
-    <Slider
-      depedency="Porto"
-      tweenLeft={() => goLeft("element", 300)}
-      tweenRight={() => goRight("element", 300)}>
+    <Slider depedency="Porto" slideTween={slideTween}>
       <ul id="ul">
         <li>slide1</li>
         <li>slide2</li>
       </ul>
     </Slider>
   );
+
   expect(screen.queryByLabelText(/arrows/gi)).toBeInTheDocument();
   expect(screen.queryByLabelText(/left/gi)).toBeInTheDocument();
   expect(screen.queryByLabelText(/right/gi)).toBeInTheDocument();
   expect(screen.queryByLabelText(/container/gi)).toBeInTheDocument();
   expect(container.querySelector("#ul").hasAttribute("width")).toBe(true);
+  expect(container.querySelector("#ul").getAttribute("width")).toEqual("300");
 
   userEvent.click(screen.queryByLabelText(/left/gi));
-  expect(goLeft).toHaveBeenCalled();
-  expect(goLeft).toHaveBeenCalledTimes(1);
-  expect(goLeft).toHaveBeenLastCalledWith("element", 300);
+
+  expect(slideTween).toHaveBeenCalled();
+  expect(slideTween).toHaveBeenCalledTimes(1);
+
+  slideTween.mockClear();
 
   userEvent.click(screen.queryByLabelText(/right/gi));
-  expect(goRight).toHaveBeenCalled();
-  expect(goRight).toHaveBeenCalledTimes(1);
-  expect(goRight).toHaveBeenLastCalledWith("element", 300);
+
+  expect(slideTween).toHaveBeenCalled();
+  expect(slideTween).toHaveBeenCalledTimes(1);
 });

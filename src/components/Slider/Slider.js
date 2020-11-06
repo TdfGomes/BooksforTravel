@@ -33,7 +33,7 @@ const Arrows = styled.div`
   transform: translateY(-50%);
 `;
 
-function Slider({ children, depedency, tweenLeft, tweenRight }) {
+function Slider({ children, depedency, slideTween }) {
   const listRef = useRef();
   const slides = useRef(0);
   const { sliderWidth, activeSlidesWidth } = useWidth(
@@ -52,7 +52,7 @@ function Slider({ children, depedency, tweenLeft, tweenRight }) {
 
     if (slides.current + 1 < manySlides) {
       slides.current++;
-      tweenLeft(listRef.current, activeSlidesWidth);
+      slideTween(listRef.current, `-=${activeSlidesWidth}`);
     }
   };
 
@@ -61,7 +61,7 @@ function Slider({ children, depedency, tweenLeft, tweenRight }) {
 
     if (slides.current > 0) {
       slides.current--;
-      tweenRight(listRef.current, activeSlidesWidth);
+      slideTween(listRef.current, `+=${activeSlidesWidth}`);
     }
   };
 
@@ -96,8 +96,7 @@ Slider.propTypes = {
   children: PropTypes.element,
   depedency: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
-  tweenLeft: PropTypes.func.isRequired,
-  tweenRight: PropTypes.func.isRequired,
+  slideTween: PropTypes.func.isRequired,
 };
 
 export default Slider;
